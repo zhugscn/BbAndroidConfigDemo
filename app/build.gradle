@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "cn.zhuguangsheng.bbandroidconfigdemo"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            //调试时使用的服务器IP地址
+            buildConfigField 'String', 'SERVER_IP', '"127.0.0.1"'
+        }
+        release {
+            //正式发布时使用的服务器IP地址
+            buildConfigField 'String', 'SERVER_IP', '"8.8.8.8"'
+            //minifyEnabled false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions ("standard")
+
+    productFlavors {
+        //渠道客户1
+        wechat {
+            dimension "standard"
+            //applicationId "cn.zhuguangsheng.bbandroidconfig.wechat"
+            //支付方式我们定义为微信支付
+            manifestPlaceholders = [
+                    paytype: "wechatpay",
+            ]
+        }
+
+        //渠道客户2
+        ali {
+            dimension "standard"
+            //applicationId "cn.zhuguangsheng.bbandroidconfig.ali"
+            //支付方式我们定义为支付宝
+            manifestPlaceholders = [
+                    paytype: "alipay",
+            ]
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    //testImplementation 'junit:junit:4.12'
+    //androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
